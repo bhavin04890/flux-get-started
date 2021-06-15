@@ -1,0 +1,49 @@
+apiVersion: autopilot.libopenstorage.org/v1alpha1
+kind: ActionApproval
+metadata:
+  creationTimestamp: null
+  finalizers:
+  - autopilot.libopenstorage.org/delete
+  labels:
+    object: pvc-420a6f0f-f885-42e4-946d-1babefb24f85
+    rule: volume-resize-gitops
+  managedFields:
+  - apiVersion: autopilot.libopenstorage.org/v1alpha1
+    manager: autopilot
+    operation: Update
+    time: "2021-06-15T15:44:29Z"
+  name: volume-resize-gitops-pvc-420a6f0f-f885-42e4-946d-1babefb24f85
+  namespace: gitops
+spec:
+  actions:
+  - name: resize
+    params:
+      maxsize: 100Gi
+      scalepercentage: "100"
+  approvalState: approved
+status:
+  Rule:
+    Name: volume-resize-gitops
+    Namespace: ""
+  actionPreviews:
+  - action:
+      name: resize
+      params:
+        maxsize: 100Gi
+        scalepercentage: "100"
+    expectedResult:
+      Message: PVC will resize from 60Gi to 100Gi
+    involvedObjects:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      name: pgbench-data
+      namespace: gitops
+      ownerReferences:
+      - apiVersion: apps/v1
+        blockOwnerDeletion: true
+        controller: true
+        kind: ReplicaSet
+        name: pgbench-749ff8c7d8
+        uid: f32c212a-7fba-4f39-a3c9-3487fcb33634
+      uid: pvc-420a6f0f-f885-42e4-946d-1babefb24f85
+  lastProcessTimestamp: "2021-06-15T15:44:29Z"
